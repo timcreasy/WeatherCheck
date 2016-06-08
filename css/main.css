@@ -1,0 +1,83 @@
+/*HIDE ZIP INPUT SPINNER*/
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+/* CREATE 15 COL GRID FOR 5 DAY */
+.col-xs-15,
+.col-sm-15,
+.col-md-15,
+.col-lg-15 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-15 {
+    width: 20%;
+    float: left;
+}
+@media (min-width: 768px) {
+.col-sm-15 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-15 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-15 {
+        width: 20%;
+        float: left;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+h1 {
+  text-align: center;
+  margin: 1em 0;
+}
+
+.cityName {
+  padding-top: 1em;
+  text-align: center;
+  clear: both;
+}
+
+h5,
+h6 {
+  text-align: center;
+}
+
+.imgContainer {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+}
+
+img {
+  width: 100%;
+}
+
+.container {
+  padding-top: 1em;
+  clear: both;
+  margin: 0 auto;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Weather</title>
+  <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Check the Weather</h1>
+  </div>
+
+
+  <!-- INPUT AREA -->
+  <div class="col-lg-4 col-lg-offset-4">
+    <div class="input-group">
+      <input type="number" id="zipInput" class="form-control" aria-label="Text input with dropdown button" placeholder="Enter your zipcode" maxlength="5">
+      <div class="input-group-btn">
+      <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Select Forecast
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item disabled" href="#">Select forecast</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item" id="currentForecast" href="#">Current Weather forecast</a>
+        <a class="dropdown-item" id="fiveDayForecast" href="#">5 day/3 hour forecast</a>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTPUT AREA -->
+  <div id="output">
+  </div>
+
+  <script src="jquery/dist/jquery.js"></script>
+  <script src="bootstrap/dist/js/bootstrap.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
