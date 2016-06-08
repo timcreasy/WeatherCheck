@@ -37,14 +37,17 @@ function weatherButtonPressed(event) {
 
 }
 
-function formatWeather(weatherData, buttonPressed) {
+function formatWeather(weatherData, buttonPressed, cityName) {
+
+  console.log("In formatWeather");
+  console.log("got buttonPressed", buttonPressed);
 
   // Current Forecast
 
-  if (buttonPressed === "currentForecast") {
+  if (buttonPressed.target.id === "currentForecast") {
     console.log(weatherData.current_observation);
 
-    let cityName = weatherData.current_observation.display_location.full;
+    //let cityName = weatherData.current_observation.display_location.full;
     let currentTemp = weatherData.current_observation.temp_f;
     let iconToUse = `<img src="${weatherData.current_observation.icon_url}">`;
     let weatherDesc = weatherData.current_observation.weather;
@@ -61,11 +64,13 @@ function formatWeather(weatherData, buttonPressed) {
 
 
   // 3 Day Forecast
-  if (buttonPressed === "threeDayForecast") {
+  if (buttonPressed.target.id === "threeDayForecast") {
 
-    //let cityName = weatherData.current_observation.display_location.full;
     // Clear old html
     output.innerHTML = "";
+
+    output.innerHTML = `<h2 class="threeDayCity">${cityName} - ${zipInput.value}</h2>
+                        <h5 class="threeDayTitle">3 Day Forecast</h5>`;
 
     // Loop through each day of three
     for (var i = 1; i <= 3; i++) {
@@ -84,14 +89,16 @@ function formatWeather(weatherData, buttonPressed) {
       var curForecastIcon = `<img src="${weatherData.forecast.simpleforecast.forecastday[i - 1].icon_url}">`;
 
       // Output forecast to DOM
-      output.innerHTML += `<h3 class="weekday">${curWeekDay}</h3>
+      output.innerHTML += `<div class="weatherCard col-sm-4">
+                            <h3 class="weekday">${curWeekDay}</h3>
                             <h6>${currentForecastDateString}</h6>
                             <h5 class="tempHigh">Temperature High - ${curForecastTempHigh}&deg;</h5>
                             <h5 class="tempLow">Temperature Low - ${curForecastTempLow}&deg;</h5>
                             <div class="imgContainer">
                               ${curForecastIcon}
                             </div>
-                            <h6>${curForecastConditions}</h6>`;
+                            <h6 class="conditions">${curForecastConditions}</h6>
+                            </div>`;
 
     }
 
@@ -99,7 +106,10 @@ function formatWeather(weatherData, buttonPressed) {
 
 }
 
-function getWeather(buttonPressed) {
+function getWeather(cityName, buttonPressed) {
+
+  console.log("In get weather");
+  console.log("Got buttonPressed:", buttonPressed);
 
   // Create new XMLHttpRequest
   var xmlhttp = new XMLHttpRequest();
@@ -109,18 +119,21 @@ function getWeather(buttonPressed) {
     if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
       // Parse responseText to JSON and store in weatherData
       var weatherData = JSON.parse(xmlhttp.responseText);
-      formatWeather(weatherData, buttonPressed);
+      console.log("Got weather, let's format");
+      formatWeather(weatherData, buttonPressed, cityName);
     }
   };
+
   // Construct queryString
-  if (buttonPressed === "currentForecast") {
+  if (buttonPressed.target.id === "currentForecast") {
     // Query currentForecast
     var queryString = "http://api.wunderground.com/api/1f1ad958b455d824/conditions/q/" + zipInput.value + ".json";
-    console.log(queryString);
+    console.log("Getting weather with query:", queryString);
   }
-  if (buttonPressed === "threeDayForecast") {
+  if (buttonPressed.target.id === "threeDayForecast") {
     // Query threeDayForecast
     var queryString = "http://api.wunderground.com/api/1f1ad958b455d824/forecast/q/" + zipInput.value + ".json";
+    console.log("Getting 3 day weather with query:", queryString);
   }
 
   // Open XMLHttpRequest
@@ -129,8 +142,35 @@ function getWeather(buttonPressed) {
   xmlhttp.send();
 }
 
+
+function getCity(buttonPressed) {
+  // Create new XMLHttpRequest
+  var cityxmlhttp = new XMLHttpRequest();
+  // Logic to run each time readyState changes
+  cityxmlhttp.onreadystatechange = function() {
+    // Ensure that readyState is good and status is good
+    if(cityxmlhttp.readyState === 4 && cityxmlhttp.status === 200) {
+      // Parse responseText to JSON and store in cityData
+      var cityData = JSON.parse(cityxmlhttp.responseText);
+      var cityName = cityData.current_observation.display_location.full;
+      console.log("Going to getWeather");
+      console.log("Passing cityName:", cityName);
+      console.log("Passing buttonPressed", buttonPressed);
+      getWeather(cityName, buttonPressed);
+    }
+  };
+
+var cityQueryString = "http://api.wunderground.com/api/1f1ad958b455d824/conditions/q/" + zipInput.value + ".json";
+
+  // Open XMLHttpRequest
+cityxmlhttp.open('GET', cityQueryString);
+  // Send request
+cityxmlhttp.send();
+
+}
+
 // =============================== EVENT LISTENERS =========================================//
 
 zipInput.addEventListener("input", maxLengthCheck);
-currentForecastButton.addEventListener("click", weatherButtonPressed);
-threeDayForecastButton.addEventListener("click", weatherButtonPressed);
+currentForecastButton.addEventListener("click", getCity);
+threeDayForecastButton.addEventListener("click", getCity);

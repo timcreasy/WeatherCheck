@@ -81,3 +81,24 @@ img {
   clear: both;
   margin: 0 auto;
 }
+
+.weekday {
+  text-align: center;
+}
+
+.conditions {
+  margin-bottom: 40px;
+}
+
+.threeDayTitle,
+.threeDayCity {
+  text-align: center;
+}
+
+.threeDayCity {
+  margin-top: 45px;
+}
+
+.threeDayTitle {
+  margin-bottom: 60px;
+}
